@@ -12,6 +12,7 @@ class Controller:
         pygame.init()
         self.width = width
         self.height = height
+        self.hasWon = False
         self.screen = pygame.display.set_mode((self.width, self.height))
         self.hit=0
         self.blow=0
@@ -32,6 +33,8 @@ class Controller:
                 self.inputLoop()
             if(self.state == "GAME"):
                 self.gameLoop()
+            if(self.state == "WIN"):
+                self.winLoop()
 
     def menuLoop(self):
         """This is the Menu Loop of the Game"""
@@ -132,7 +135,7 @@ class Controller:
                         if rightOrWrong == 2:
                             #print("Enter Button Pressed")
                             for i in range(0,len(self.codes)):
-                                if answer==self.codes[i]:
+                                if answer.lower()==self.codes[i]:
                                     pygame.mixer.music.load('assets/sounds/unlock.ogg')
                                     pygame.mixer.music.play(0)
                                     self.codes[i]="2"
@@ -163,10 +166,8 @@ class Controller:
                     self.hit += 1
                 else:
                     self.blow += 1
-        if self.hit==4:
-            pygame.mixer.music.load('assets/sounds/win.ogg')
-            pygame.mixer.music.play(0)
-        elif self.hit==0 and self.blow==0:
+
+        if self.hit==0 and self.blow==0:
             pygame.mixer.music.load('assets/sounds/wrong.ogg')
             pygame.mixer.music.play(0)
 
@@ -200,6 +201,9 @@ class Controller:
         value4=""
         #LOOP
         while self.state == "GAME":
+            if self.hit==4:
+                pygame.time.delay(2000)
+                self.state="WIN"
             #BACKGROUND
             self.gameScreen = pygame.transform.smoothscale(pygame.image.load('assets/GameScreen.png').convert_alpha(), (self.width,self.height))
             self.screen.blit(self.gameScreen, (0, 0))
@@ -308,4 +312,24 @@ class Controller:
 
                 for i in range(0,(self.blow)):
                     self.screen.blit(self.blueOn, (676, 120+(i*175)-2.5))
+
+            if self.hit==4:
+                if self.hasWon == False:
+                    pygame.mixer.music.load('assets/sounds/win.ogg')
+                    pygame.mixer.music.play(0)
+                    self.hasWon = True
+
+            pygame.display.flip()
+
+
+    def winLoop(self):
+        """This is the Menu Loop of the Game"""
+        print("Entering the menu loop...")
+        pygame.mixer.music.load('assets/sounds/morseCode.ogg')
+        pygame.mixer.music.play(0)
+        while self.state == "WIN":
+            #BACKGROUND
+            self.menuBG = pygame.transform.smoothscale(pygame.image.load('assets/Escaped.png').convert_alpha(), (self.width,self.height))
+            self.screen.blit(self.menuBG, (0, 0))
+
             pygame.display.flip()
