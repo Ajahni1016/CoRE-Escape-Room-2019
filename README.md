@@ -36,11 +36,11 @@ The player(s) can click on any button on the keypad to input a number and the [C
 
 When the [ENT] button is pressed and 4 digits have been selected, the lights on the left and right sides will light up. 
 
-![Lights on](/designs/MastermindBlankAttempt.png)
+![Lights on](/designs/MastermindAttempt.png)
 
 A blue light means that one of the numbers selected is the correct, but it's in the wrong spot in the code.
 A green light means that one of the numbers selected is both in the code and in the right spot.
 
-![Correct code](/designs/MastermindBlankComplete.png)
+![Correct code](/designs/MastermindComplete.png)
 
 4 green lights indicates that the correct code has been found and the game is over.
